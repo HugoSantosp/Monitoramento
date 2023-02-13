@@ -1,0 +1,26 @@
+{
+  "name": "mapael-maps",
+  "description": "Vector maps for jQuery Mapael",
+  "homepage": "http://www.vincentbroute.fr/mapael/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neveldo/mapael-maps.git"
+  },
+  "author": "Vincent Brouté <contact@vincentbroute.fr> (http://www.vincentbroute.fr/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/neveldo/mapael-maps/issues"
+  },
+  "keywords": [
+    "mapael",
+    "map",
+    "vector",
+    "svg"
+  ],
+  "devDependencies": {
+    "grunt": "^1.0",
+    "grunt-contrib-jshint": "^1.1",
+    "grunt-contrib-uglify": "^2.3"
+  },
+  "version": "1.0.0"
+}
