@@ -16,14 +16,24 @@ class ServerController extends Controller
      */
     public function index()
     {
-        $data = DB::select('select ip_adress from servers');
-        $ping = new PingController();
-        $time = $ping->ServerPings($data[1]);
-
-        dd($time);
-    
         
-        return view('home');
+        $data = DB::select('select server_adress from servidores');
+        $ping = new PingController();
+        $result = count($data);
+
+        for($i = 0; $i < $result; $i++)
+        {
+
+                $time[$i] = $ping->ServerPings( $data[$i]);
+         
+
+        }
+       
+        
+
+       
+        
+        return view('home', compact('time'));
     }
 
     /**
@@ -34,7 +44,7 @@ class ServerController extends Controller
     public function create(Request $request)
     {
 
-        DB::insert('insert into servers (nome, ip_adress) values (?, ?)', [$request->servername, $request->ipadress]);
+        DB::insert('insert into servidores (server_name, server_adress) values (?, ?)', [$request->servername, $request->ipadress]);
         
        
     }

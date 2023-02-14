@@ -76,21 +76,24 @@
       </div>
     </div>
 
+    <section class="content">
+
 
     <script type="text/javascript">
       google.charts.load('current', {'packages':['gauge']});
       google.charts.setOnLoadCallback(drawChart);
 
-      function drawChart() {   
-        var time = <?php ?> 
+      var time = <?php echo 5 ;?>;
+
+      function drawChart() {
 
         var data = google.visualization.arrayToDataTable([
           ['Label', 'Value'],
-          ['Time (ms)', 40]
+          ['ms', time]
         ]);
 
         var options = {
-          width: 500, height: 220,
+          width: 600, height: 220,
           redFrom: 90, redTo: 100,
           yellowFrom:75, yellowTo: 90,
           minorTicks: 5
@@ -100,26 +103,24 @@
 
         chart.draw(data, options);
       }
-
     </script>
-    <section class="content">
+@foreach ($time as $item)
       <div class="card text-center" style="width: 16rem; height: 23rem;">
           <div class="card-header">
-          <h3></h3>
+            <h3>{{$item['ServerName']}}</h3>
           </div>
 
           <div class="card-body">
-            <div class="align-middle" id="chart_div" style="width: 400px; height: 120px;"></div>
+            <div id="chart_div" style="width: 500px; height: 320px;"></div>
           </div>
 
           <div class="card-footer text-muted">
-              <h3></h3>
+              <h3>{{$item['ServeIp']}}</h3>
           </div>
-      </div>
-
-    
-    </section>
-
+      </div>   
+@endforeach
+ 
+</section>
   </div>
 
   <footer class="main-footer">
