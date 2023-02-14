@@ -3,15 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content='5'>  
   <title>Monitoramento</title>
 
-  <!-- Google Font: Source Sans Pro -->
+
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="/Assets/plugins/fontawesome-free/css/all.min.css">
-  <!-- overlayScrollbars -->
   <link rel="stylesheet" href="/Assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-  <!-- Theme style -->
+
   <link rel="stylesheet" href="/Assets/dist/css/adminlte.min.css">
 
 
@@ -19,7 +18,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 </head>
-<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition dark-mode sidebar-mini sidebar-collapse layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
 
 
@@ -77,49 +76,41 @@
     </div>
 
     <section class="content">
+    <div class="card card-solid">
+        <div class="card-body ">
+          <div class="row" id="servers">
 
+          @foreach ($time as $item)
+          <div class=" col-md-3 d-flex align-items-stretch ">
+              <div class="card bg-light d-flex flex-fill">
+                <div class="card-header  border-bottom-0">
+                  <h3>{{$item['ServerName']}}</h3>
+                </div>
 
-    <script type="text/javascript">
-      google.charts.load('current', {'packages':['gauge']});
-      google.charts.setOnLoadCallback(drawChart);
-
-      var time = <?php echo 5 ;?>;
-
-      function drawChart() {
-
-        var data = google.visualization.arrayToDataTable([
-          ['Label', 'Value'],
-          ['ms', time]
-        ]);
-
-        var options = {
-          width: 600, height: 220,
-          redFrom: 90, redTo: 100,
-          yellowFrom:75, yellowTo: 90,
-          minorTicks: 5
-        };
-
-        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
-
-        chart.draw(data, options);
-      }
-    </script>
-@foreach ($time as $item)
-      <div class="card text-center" style="width: 16rem; height: 23rem;">
-          <div class="card-header">
-            <h3>{{$item['ServerName']}}</h3>
-          </div>
-
-          <div class="card-body">
-            <div id="chart_div" style="width: 500px; height: 320px;"></div>
-          </div>
-
-          <div class="card-footer text-muted">
-              <h3>{{$item['ServeIp']}}</h3>
-          </div>
-      </div>   
-@endforeach
+                <div class="card-body pt-0  @if($item['ServerTimeResponse'] <= 20) bg-success @elseif($item['ServerTimeResponse'] == 'Loss') bg-danger @else bg-warning @endif">
+                  <div class="row @if($item['ServerTimeResponse'] <= 20) bg-success @elseif($item['ServerTimeResponse'] == 'Loss') bg-danger @else bg-warning @endif">
+                    <div class="col-7">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-reception-4 text-white" viewBox="0 0 16 16">
+                      <path d="M0 11.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2zm4-3a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-5zm4-3a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-8zm4-3a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-11z"/>
+                    </svg>
+                    <p class="fs-1 text-white">{{$item['ServerTimeResponse']}} ms</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <div class="text-right">
+                      <h3>{{$item['ServeIp']}}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            @endforeach          
  
+          </div>
+        </div>
+      </div>
+
+
 </section>
   </div>
 
@@ -143,6 +134,8 @@
 <script src="/Assets/plugins/jquery-mapael/jquery.mapael.min.js"></script>
 <script src="/Assets/plugins/jquery-mapael/maps/usa_states.min.js"></script>
 <script src="/Assets/plugins/chart.js/Chart.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
 
 </body>
 </html>
@@ -158,16 +151,16 @@
               </button>
             </div>
             <div class="modal-body">
-            <form method="POST" action="/addServer"  enctype="multipart/form-data">
+            <form name="formserver"  enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
                   <div class="form-group">
                     <label class="text-white" for="exampleInputEmail1">Serve Name</label>
-                    <input type="text" class="form-control text-dark" name="servername" id="exampleInputEmail1" >
+                    <input type="text" class="servername form-control text-dark" name="servername" id="exampleInputEmail1" >
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">IP Address Server</label>
-                    <input type="text" class="form-control" name="ipadress" id="exampleInputPassword1" >
+                    <input type="text" class="serveradress form-control" name="ipadress" id="exampleInputPassword1" >
                   </div>
                 </div>  
             </div>
@@ -181,3 +174,21 @@
         </div>
         <!-- /.modal-dialog -->
       </div>
+
+<script>
+  $(function () {
+      $('form[name="formserver"]').submit(function(event){
+          event.preventDefault();
+
+          $.ajax({
+            url:'/addServer',
+            type: 'POST',
+            data: $(this).serialize(),
+            
+          }).done(function (data){
+            $('#servers').html(data);
+          }) ;
+
+      })
+  })
+</script>
