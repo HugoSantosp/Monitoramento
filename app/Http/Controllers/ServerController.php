@@ -16,7 +16,6 @@ class ServerController extends Controller
      */
     public function index()
     {
-        
         $data = DB::select('select server_adress from servidores');
         $ping = new PingController();
         $result = count($data);
@@ -28,6 +27,8 @@ class ServerController extends Controller
          
 
         }
+
+        
         
         return view('home', compact('time'));
     }
@@ -40,7 +41,7 @@ class ServerController extends Controller
     public function create(Request $request)
     {
 
-        
+
         DB::insert('insert into servidores (server_name, server_adress) values (?, ?)', [$request->servername, $request->ipadress]);
         
 

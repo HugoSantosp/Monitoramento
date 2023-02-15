@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content='5'>  
+   <meta http-equiv="refresh" content='3'>   
   <title>Monitoramento</title>
 
 
@@ -87,8 +87,8 @@
                   <h3>{{$item['ServerName']}}</h3>
                 </div>
 
-                <div class="card-body pt-0  @if($item['ServerTimeResponse'] <= 20) bg-success @elseif($item['ServerTimeResponse'] == 'Loss') bg-danger @else bg-warning @endif">
-                  <div class="row @if($item['ServerTimeResponse'] <= 20) bg-success @elseif($item['ServerTimeResponse'] == 'Loss') bg-danger @else bg-warning @endif">
+                <div class="card-body pt-0  @if($item['ServerTimeResponse'] <= 20) bg-success @elseif($item['ServerTimeResponse'] == 'Loss' || $item['ServerTimeResponse'] == 'Inalcançável') bg-danger @else bg-warning @endif">
+                  <div class="row @if($item['ServerTimeResponse'] <= 20) bg-success @elseif($item['ServerTimeResponse'] == 'Loss' || $item['ServerTimeResponse'] == 'Inalcançável') bg-danger @else bg-warning @endif">
                     <div class="col-7">
                     <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-reception-4 text-white" viewBox="0 0 16 16">
                       <path d="M0 11.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2zm4-3a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-5zm4-3a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-8zm4-3a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-11z"/>
@@ -165,7 +165,7 @@
                 </div>  
             </div>
             <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal" id='btn-fechar' >Close</button>
               <button type="submit" class="btn btn-primary">Save changes</button>
             </div>
           </div>
@@ -176,6 +176,7 @@
       </div>
 
 <script>
+
   $(function () {
       $('form[name="formserver"]').submit(function(event){
           event.preventDefault();
@@ -185,9 +186,10 @@
             type: 'POST',
             data: $(this).serialize(),
             
-          }).done(function (data){
-            $('#servers').html(data);
-          }) ;
+          }).done( function (response){
+              $('#servers').html(response)
+          })
+         
 
       })
   })
