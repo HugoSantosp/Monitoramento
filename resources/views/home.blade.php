@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta http-equiv="refresh" content='3'>   
+   <!-- <meta http-equiv="refresh" content='3'>    -->
   <title>Monitoramento</title>
 
 
@@ -76,43 +76,13 @@
     </div>
 
     <section class="content">
-    <div class="card card-solid">
+      <div class="card card-solid">
         <div class="card-body ">
           <div class="row" id="servers">
-
-          @foreach ($time as $item)
-          <div class=" col-md-3 d-flex align-items-stretch ">
-              <div class="card bg-light d-flex flex-fill">
-                <div class="card-header  border-bottom-0">
-                  <h3>{{$item['ServerName']}}</h3>
-                </div>
-
-                <div class="card-body pt-0  @if($item['ServerTimeResponse'] <= 20) bg-success @elseif($item['ServerTimeResponse'] == 'Loss' || $item['ServerTimeResponse'] == 'Inalcançável') bg-danger @else bg-warning @endif">
-                  <div class="row @if($item['ServerTimeResponse'] <= 20) bg-success @elseif($item['ServerTimeResponse'] == 'Loss' || $item['ServerTimeResponse'] == 'Inalcançável') bg-danger @else bg-warning @endif">
-                    <div class="col-7">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-reception-4 text-white" viewBox="0 0 16 16">
-                      <path d="M0 11.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2zm4-3a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-5zm4-3a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-8zm4-3a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-11z"/>
-                    </svg>
-                    <p class="fs-1 text-white">{{$item['ServerTimeResponse']}} ms</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-footer">
-                  <div class="text-right">
-                      <h3>{{$item['ServeIp']}}</h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-            @endforeach          
- 
-          </div>
+            
         </div>
       </div>
-
-
-</section>
-  </div>
+  </section>
 
   <footer class="main-footer">
     <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
@@ -170,12 +140,34 @@
             </div>
           </div>
           </form>
-          <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
-      </div>
+</div>
 
 <script>
+
+GetServers();
+
+function GetServers(){
+  $.ajax({
+    url: '/listaserver',
+    method: 'get',
+    dataType: 'json'
+  }).done(function (retorno){
+    console.log(retorno)
+       for(var i = 0; i < retorno.length; i ++)
+      {
+
+      } 
+  })
+}
+
+
+/* 
+    setInterval(function (){
+      GetServers();
+    },1000)
+ */
+
 
   $(function () {
       $('form[name="formserver"]').submit(function(event){

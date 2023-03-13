@@ -17,6 +17,8 @@ class ServerController extends Controller
     public function index()
     {
         $data = DB::select('select server_adress from servidores');
+
+
         $ping = new PingController();
         $result = count($data);
         $time =[];
@@ -28,9 +30,10 @@ class ServerController extends Controller
 
         }
 
+
+        echo json_encode($time);
         
-        
-        return view('home', compact('time'));
+       // return view('home', compact('time'));
     }
 
     /**

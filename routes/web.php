@@ -20,6 +20,10 @@ use Illuminate\Support\Facades\Route;
     return view('inicio');
 });   */
 
-Route::get('/monitor', [ServerController::class, 'index'])->name('inicio');
+Route::get('/monitor', function (){
+    return view('home');
+});
+
+Route::get('/listaserver', [ServerController::class, 'index']);
 
 Route::post('/addServer', [ServerController::class, 'create']);
